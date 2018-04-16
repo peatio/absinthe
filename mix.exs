@@ -1,7 +1,7 @@
 defmodule Absinthe.Mixfile do
   use Mix.Project
 
-  @version "1.5.0-dev"
+  @version "2.0.0"
 
   def project do
     [
@@ -36,6 +36,7 @@ defmodule Absinthe.Mixfile do
         "Bruce Williams",
         "Ben Wilson"
       ],
+      organization: "peatio",
       licenses: ["MIT"],
       links: %{github: "https://github.com/absinthe-graphql/absinthe"}
     ]
