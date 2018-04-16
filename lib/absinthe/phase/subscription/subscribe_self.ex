@@ -17,16 +17,15 @@ defmodule Absinthe.Phase.Subscription.SubscribeSelf do
 
   def do_subscription(%{type: :subscription} = op, blueprint, options) do
     context = blueprint.execution.context
-    pubsub = ensure_pubsub!(context)
-
-    hash = :erlang.phash2(blueprint)
-    doc_id = "__absinthe__:doc:#{hash}"
+    execution = blueprint.execution
 
     %{selections: [field]} = op
 
     with {:ok, field_key} <- get_field_key(field, context) do
-      Absinthe.Subscription.subscribe(pubsub, field_key, doc_id, blueprint)
-      {:replace, blueprint, [{Phase.Subscription.Result, topic: doc_id}]}
+      execution = %{execution | result: %{value: %{"topic" => field_key}}}
+      blueprint = %{blueprint | execution: execution}
+
+      {:replace, blueprint, [{Phase.Document.Result, options}]}
     else
       {:error, error} ->
         blueprint = update_in(blueprint.execution.validation_errors, &[error | &1])
@@ -62,7 +61,7 @@ defmodule Absinthe.Phase.Subscription.SubscribeSelf do
     case config do
       {:ok, config} ->
         key = find_key!(config)
-        {:ok, {name, key}}
+        {:ok, key}
 
       {:error, msg} ->
         error = %Phase.Error{

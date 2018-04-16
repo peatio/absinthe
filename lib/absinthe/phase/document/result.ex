@@ -65,6 +65,10 @@ defmodule Absinthe.Phase.Document.Result do
     {value, errors}
   end
 
+  defp data(%{value: value}, errors) do
+    {value, errors}
+  end
+
   # Object
   defp data(%{fields: fields}, errors), do: field_data(fields, errors)
 
