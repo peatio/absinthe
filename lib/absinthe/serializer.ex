@@ -13,6 +13,7 @@ defmodule Absinthe.Serializer do
     IntValue,
     ListValue,
     NamedType,
+    NonNullType,
     NullValue,
     ObjectField,
     ObjectValue,
@@ -123,6 +124,7 @@ defmodule Absinthe.Serializer do
     "#{name}: #{serialize(value)}"
   end
 
+  def serialize(%NonNullType{type: type}), do: "#{serialize(type)}!"
   def serialize(%Variable{name: name}), do: "$#{name}"
   def serialize(%NamedType{name: name}), do: name
   def serialize(%IntValue{value: value}), do: value
