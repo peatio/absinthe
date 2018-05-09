@@ -20,6 +20,17 @@ defmodule Absinthe.SerializerTest do
              |> Serializer.serialize() == "$episode: Episode"
     end
 
+    test "serialize list" do
+      assert %Absinthe.Language.ListType{
+               loc: %{start_line: 1},
+               type: %Absinthe.Language.NonNullType{
+                 loc: nil,
+                 type: %Absinthe.Language.NamedType{loc: %{start_line: 1}, name: "String"}
+               }
+      }
+             |> Serializer.serialize() == "[String!]"
+    end
+
     test "serialize selection sets" do
       assert %Absinthe.Language.SelectionSet{
                loc: %{end_line: 7, start_line: 2},
