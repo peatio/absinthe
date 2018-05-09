@@ -42,10 +42,19 @@ defmodule Absinthe.Serializer do
     variables_string =
       variable_definitions
       |> Enum.map(&serialize/1)
+      |> Enum.join(", ")
 
-    """
-    #{to_string(operation)} #{to_string(name)} #{serialize(selection_set)}
-    """
+    case variables_string do
+      "" ->
+        """
+        #{to_string(operation)} #{to_string(name)} #{serialize(selection_set)}
+        """
+
+      value ->
+        """
+        #{to_string(operation)}(#{value}) #{to_string(name)} #{serialize(selection_set)}
+        """
+    end
   end
 
   def serialize(%EnumTypeDefinition{}) do

@@ -27,7 +27,7 @@ defmodule Absinthe.SerializerTest do
                  loc: nil,
                  type: %Absinthe.Language.NamedType{loc: %{start_line: 1}, name: "String"}
                }
-      }
+             }
              |> Serializer.serialize() == "[String!]"
     end
 
@@ -246,6 +246,122 @@ defmodule Absinthe.SerializerTest do
                }
              }
              |> Serializer.serialize() == "... on Droid {\nprimaryFunction\n}\n"
+    end
+
+    test "serialize operation definition" do
+      assert %Absinthe.Language.Document{
+               definitions: [
+                 %Absinthe.Language.OperationDefinition{
+                   directives: [],
+                   loc: %{start_line: 1},
+                   name: "createSession",
+                   operation: :mutation,
+                   selection_set: %Absinthe.Language.SelectionSet{
+                     loc: %{end_line: 14, start_line: 1},
+                     selections: [
+                       %Absinthe.Language.Field{
+                         alias: nil,
+                         arguments: [
+                           %Absinthe.Language.Argument{
+                             loc: %{start_line: 2},
+                             name: "session",
+                             value: %Absinthe.Language.ObjectValue{
+                               fields: [
+                                 %Absinthe.Language.ObjectField{
+                                   loc: %{start_line: 2},
+                                   name: "user",
+                                   value: %Absinthe.Language.ObjectValue{
+                                     fields: [
+                                       %Absinthe.Language.ObjectField{
+                                         loc: %{start_line: 2},
+                                         name: "email",
+                                         value: %Absinthe.Language.Variable{
+                                           loc: %{start_line: 2},
+                                           name: "email"
+                                         }
+                                       },
+                                       %Absinthe.Language.ObjectField{
+                                         loc: %{start_line: 2},
+                                         name: "password",
+                                         value: %Absinthe.Language.Variable{
+                                           loc: %{start_line: 2},
+                                           name: "password"
+                                         }
+                                       }
+                                     ],
+                                     loc: %{start_line: 2}
+                                   }
+                                 }
+                               ],
+                               loc: %{start_line: 2}
+                             }
+                           }
+                         ],
+                         directives: [],
+                         loc: %{start_line: 2},
+                         name: "createSession",
+                         selection_set: %Absinthe.Language.SelectionSet{
+                           loc: %{end_line: 13, start_line: 2},
+                           selections: [
+                             %Absinthe.Language.Field{
+                               alias: nil,
+                               arguments: [],
+                               directives: [],
+                               loc: %{start_line: 3},
+                               name: "token",
+                               selection_set: nil
+                             },
+                             %Absinthe.Language.Field{
+                               alias: nil,
+                               arguments: [],
+                               directives: [],
+                               loc: %{start_line: 12},
+                               name: "__typename",
+                               selection_set: nil
+                             }
+                           ]
+                         }
+                       }
+                     ]
+                   },
+                   variable_definitions: [
+                     %Absinthe.Language.VariableDefinition{
+                       default_value: nil,
+                       loc: %{start_line: 1},
+                       type: %Absinthe.Language.NonNullType{
+                         loc: nil,
+                         type: %Absinthe.Language.NamedType{
+                           loc: %{start_line: 1},
+                           name: "String"
+                         }
+                       },
+                       variable: %Absinthe.Language.Variable{
+                         loc: %{start_line: 1},
+                         name: "email"
+                       }
+                     },
+                     %Absinthe.Language.VariableDefinition{
+                       default_value: nil,
+                       loc: %{start_line: 1},
+                       type: %Absinthe.Language.NonNullType{
+                         loc: nil,
+                         type: %Absinthe.Language.NamedType{
+                           loc: %{start_line: 1},
+                           name: "String"
+                         }
+                       },
+                       variable: %Absinthe.Language.Variable{
+                         loc: %{start_line: 1},
+                         name: "password"
+                       }
+                     }
+                   ]
+                 }
+               ],
+               loc: nil
+             }
+             |> Serializer.serialize() ==
+               "mutation($email: String!, $password: String!) createSession {\ncreateSession(session: {user: {email: $email, password: $password}}) {\ntoken\n__typename\n}\n\n}\n\n"
     end
   end
 end
