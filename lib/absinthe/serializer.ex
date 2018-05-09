@@ -11,6 +11,7 @@ defmodule Absinthe.Serializer do
     FragmentSpread,
     InlineFragment,
     IntValue,
+    ListType,
     ListValue,
     NamedType,
     NonNullType,
@@ -125,6 +126,7 @@ defmodule Absinthe.Serializer do
   end
 
   def serialize(%NonNullType{type: type}), do: "#{serialize(type)}!"
+  def serialize(%ListType{type: type}), do: "[#{serialize(type)}]"
   def serialize(%Variable{name: name}), do: "$#{name}"
   def serialize(%NamedType{name: name}), do: name
   def serialize(%IntValue{value: value}), do: value
