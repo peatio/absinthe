@@ -129,7 +129,7 @@ defmodule Absinthe.Serializer do
   def serialize(%NamedType{name: name}), do: name
   def serialize(%IntValue{value: value}), do: value
   def serialize(%FloatValue{value: value}), do: value
-  def serialize(%StringValue{value: value}), do: value
+  def serialize(%StringValue{value: value}), do: "\"#{value}\""
   def serialize(%BooleanValue{value: value}), do: value
   def serialize(%EnumValue{value: value}), do: value
   def serialize(%EnumValue{value: value}), do: value

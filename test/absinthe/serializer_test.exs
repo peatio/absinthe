@@ -209,7 +209,7 @@ defmodule Absinthe.SerializerTest do
                  name: "episode"
                }
              }
-             |> Serializer.serialize() == "$episode: Episode = JEDI"
+             |> Serializer.serialize() == "$episode: Episode = \"JEDI\""
     end
 
     test "serialize inline serializer" do
