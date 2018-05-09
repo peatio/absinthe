@@ -132,7 +132,6 @@ defmodule Absinthe.Serializer do
   def serialize(%StringValue{value: value}), do: "\"#{value}\""
   def serialize(%BooleanValue{value: value}), do: value
   def serialize(%EnumValue{value: value}), do: value
-  def serialize(%EnumValue{value: value}), do: value
   def serialize(%NullValue{}), do: "null"
   def serialize(%FragmentSpread{name: name}), do: "...#{name}"
 end
