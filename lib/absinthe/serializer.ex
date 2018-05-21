@@ -52,7 +52,7 @@ defmodule Absinthe.Serializer do
 
       value ->
         """
-        #{to_string(operation)}(#{value}) #{to_string(name)} #{serialize(selection_set)}
+        #{to_string(operation)} #{to_string(name)}(#{value}) #{serialize(selection_set)}
         """
     end
   end

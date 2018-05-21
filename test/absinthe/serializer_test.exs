@@ -361,7 +361,7 @@ defmodule Absinthe.SerializerTest do
                loc: nil
              }
              |> Serializer.serialize() ==
-               "mutation($email: String!, $password: String!) createSession {\ncreateSession(session: {user: {email: $email, password: $password}}) {\ntoken\n__typename\n}\n\n}\n\n"
+        "mutation createSession($email: String!, $password: String!) {\ncreateSession(session: {user: {email: $email, password: $password}}) {\ntoken\n__typename\n}\n\n}\n\n"
     end
   end
 end
