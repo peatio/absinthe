@@ -36,7 +36,7 @@ defmodule Absinthe.SerializerTest do
                loc: %{end_line: 7, start_line: 2},
                selections: [
                  %Absinthe.Language.Field{
-                   alias: nil,
+                   alias: "NM",
                    arguments: [],
                    directives: [],
                    loc: %{start_line: 3},
@@ -65,7 +65,7 @@ defmodule Absinthe.SerializerTest do
                  }
                ]
              }
-             |> Serializer.serialize() == "{\nname\nfriends {\nname\n}\n\n}\n"
+             |> Serializer.serialize() == "{\nNM: name\nfriends {\nname\n}\n\n}\n"
     end
 
     test "serialize field" do
@@ -361,7 +361,7 @@ defmodule Absinthe.SerializerTest do
                loc: nil
              }
              |> Serializer.serialize() ==
-        "mutation createSession($email: String!, $password: String!) {\ncreateSession(session: {user: {email: $email, password: $password}}) {\ntoken\n__typename\n}\n\n}\n\n"
+               "mutation createSession($email: String!, $password: String!) {\ncreateSession(session: {user: {email: $email, password: $password}}) {\ntoken\n__typename\n}\n\n}\n\n"
     end
   end
 end

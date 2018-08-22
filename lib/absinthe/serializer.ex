@@ -86,9 +86,9 @@ defmodule Absinthe.Serializer do
     if default_value, do: result <> " = #{serialize(default_value)}", else: result
   end
 
-  def serialize(%Field{name: name, selection_set: nil}), do: name
+  def serialize(field = %Field{selection_set: nil}), do: serialize_field_name(field)
 
-  def serialize(%Field{name: name, arguments: arguments, selection_set: selection_set}) do
+  def serialize(field = %Field{arguments: arguments, selection_set: selection_set}) do
     argument_string =
       if arguments == [] do
         ""
@@ -96,7 +96,7 @@ defmodule Absinthe.Serializer do
         "(#{arguments |> Enum.map(&serialize/1) |> Enum.join(", ")})"
       end
 
-    "#{name}#{argument_string} #{serialize(selection_set)}"
+    "#{serialize_field_name(field)}#{argument_string} #{serialize(selection_set)}"
   end
 
   def serialize(%SelectionSet{selections: selections}) do
@@ -145,4 +145,7 @@ defmodule Absinthe.Serializer do
   def serialize(%EnumValue{value: value}), do: value
   def serialize(%NullValue{}), do: "null"
   def serialize(%FragmentSpread{name: name}), do: "...#{name}"
+
+  defp serialize_field_name(%Field{name: name, alias: nil}), do: name
+  defp serialize_field_name(%Field{name: name, alias: als}), do: "#{als}: #{name}"
 end
